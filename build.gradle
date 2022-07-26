@@ -6,15 +6,14 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:5.0.3'
-        // revElasticSearch7 in dependencies.gradle needs to be updated when spring is upgraded
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.3.12.RELEASE'
-        classpath 'com.diffplug.spotless:spotless-plugin-gradle:5.+'
+        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:7.0.0'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.6.7'
+        classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.+'
     }
 }
 
 plugins {
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'application'
     id 'jacoco'
@@ -75,40 +74,22 @@ allprojects {
 
     dependencyManagement {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:2.3.12.RELEASE")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.6.7")
         }
     }
 
     dependencies {
-        implementation('org.apache.logging.log4j:log4j-core') {
-            version {
-                strictly '2.17.0'
-            }
-        }
-        implementation('org.apache.logging.log4j:log4j-api') {
-            version {
-                strictly '2.17.0'
-            }
-        }
-        implementation('org.apache.logging.log4j:log4j-slf4j-impl') {
-            version {
-                strictly '2.17.0'
-            }
-        }
-        implementation('org.apache.logging.log4j:log4j-jul') {
-            version {
-                strictly '2.17.0'
-            }
-        }
-        implementation('org.apache.logging.log4j:log4j-web') {
-            version {
-                strictly '2.17.0'
-            }
-        }
+        implementation "org.apache.logging.log4j:log4j-core:${revLog4J}"
+        implementation "org.apache.logging.log4j:log4j-api:${revLog4J}"
+        implementation "org.apache.logging.log4j:log4j-slf4j-impl:${revLog4J}"
+        implementation "org.apache.logging.log4j:log4j-jul:${revLog4J}"
+        implementation "org.apache.logging.log4j:log4j-web:${revLog4J}"
+
         annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-        testImplementation('org.springframework.boot:spring-boot-starter-test')
-        testImplementation('org.springframework.boot:spring-boot-starter-log4j2')
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'org.springframework.boot:spring-boot-starter-log4j2'
+        testImplementation 'org.junit.vintage:junit-vintage-engine'
     }
 
     // processes additional configuration metadata json file as described here
